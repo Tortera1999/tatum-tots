@@ -24,9 +24,12 @@ const app = {
             id: ++this.max,
         }
 
-        this.flicks.push(flick)
+        this.flicks.unshift(flick)
+        console.log(this.flicks)
 
-        this.list.appendChild(this.renderListItem(flick))
+        const item = this.renderListItem(flick)
+        this.list.insertBefore(item, this.list.firstElementChild)
+
         f.reset()
     },
 }
