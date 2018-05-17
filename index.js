@@ -1,16 +1,22 @@
 const app = {
     init: function(formSelector){
+        this.max = 0;
         const form = document.querySelector(formSelector)
-        form.addEventListener('submit', this.handleSubmit)
+        form.addEventListener('submit', (ev) => {
+            ev.preventDefault()
+            this.handleSubmit(ev)
+        })
     },
     handleSubmit: function(ev){
-        ev.preventDefault()
+        
         const f = ev.target
-        console.log(f.flickName.value)
+        const flick = {
+            name: f.flickName.value,
+            id: ++this.max,
+        }
+        console.log(flick)
+        f.reset()
     },
-
-
-
 }
 
 app.init('#flickForm')
