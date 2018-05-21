@@ -1,5 +1,5 @@
-const app = {
-    init: function(selectors){
+class App{
+    constructor(selectors){
         this.flicks = []
         this.max = 0;
         this.list = document.querySelector(selectors.listSelector)
@@ -9,19 +9,36 @@ const app = {
             ev.preventDefault()
             this.handleSubmit(ev)
         })
-    },
+    }
 
-    removeFlick(ev){
+    removeFlick(flick, ev){
         const item = (ev.target.closest('.flick'))
         item.remove()
-    },
+        const i = this.flicks.indexOf(flick)
+        this.flicks.splice(i,1)
+    }
 
-    renderListItem: function(flick){
+    favFlick(flick, ev){
+        const item = (ev.target.closest('.flick'))
+        if(!flick.fav){
+            item.style.backgroundColor = "yellow"
+        }
+        else{
+            item.style.backgroundColor = "white"
+        }
+        flick.fav = !flick.fav
+        console.log(item)
+        console.log(flick)
+    }
+
+    renderListItem(flick){
         const item = this.template.cloneNode(true)
         item.classList.remove('template')
         item.dataset.id = flick.id
 
-        item.querySelector('.remove.button').addEventListener('click', this.removeFlick)
+        item.querySelector('.remove.button').addEventListener('click', this.removeFlick.bind(this,flick))
+
+        item.querySelector('.fav.button').addEventListener('click', this.favFlick.bind(this,flick))
 
         // item.querySelector('.alert').addEventListener('click', (ev) =>{
         //     const b = (ev.target.parentElement.parentElement)
@@ -102,9 +119,9 @@ const app = {
         // })
         
         return item
-    },
+    }
 
-    handleSubmit: function(ev){
+    handleSubmit(ev){
         const f = ev.target
         const flick = {
             name: f.flickName.value,
@@ -118,11 +135,11 @@ const app = {
         this.list.insertBefore(item, this.list.firstElementChild)
 
         f.reset()
-    },
+    }
 }
 
-app.init({
+const app = new App({
     formSelector: '#flickForm',
     listSelector: '#flickList',
-    templateSelector: '.flick.template'
+    templateSelector: '.flick.template',
 })
