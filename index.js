@@ -23,15 +23,48 @@ class App{
         flick.fav = item.classList.toggle('fav')
     }
 
+    toggleEditable(flick, ev){
+        const item = (ev.target.closest('.flick'))
+        const btn = item.querySelector('.edit.button')
+        const nameField = item.querySelector('.flickName')
+        if(nameField.isContentEditable){
+            nameField.contentEditable = false
+            btn.textContent = 'Edit'
+            btn.classList.remove ('success')
+
+            flick.name = nameField.textContent
+            console.log(this.flicks)
+        } else{
+            nameField.contentEditable = true
+            nameField.focus()
+            btn.textContent = 'Save'
+            btn.classList.add('success')
+        }
+    }
+
+    saveOnEnter(flick,ev){
+        if(ev.keyCode === 13){
+            this.toggleEditable(flick,ev)
+        }
+    }
+
     renderListItem(flick){
         const item = this.template.cloneNode(true)
         item.classList.remove('template')
         item.dataset.id = flick.id
 
+        const nameSpan = item.querySelector('.flickName')
+        nameSpan.textContent = flick.name
+
+        nameSpan.addEventListener('keypress', this.saveOnEnter.bind(this,flick))
+
         item.querySelector('.remove.button').addEventListener('click', this.removeFlick.bind(this,flick))
 
         item.querySelector('.fav.button').addEventListener('click', this.favFlick.bind(this,flick))
 
+        item.querySelector('.edit.button').addEventListener('click', this.toggleEditable.bind(this,flick))
+
+        
         // item.querySelector('.alert').addEventListener('click', (ev) =>{
         //     const b = (ev.target.parentElement.parentElement)
         //     b.parentElement.removeChild(b)
@@ -102,7 +135,7 @@ class App{
         //     this.flicks[reqIndex] = temp
         // })
 
-        item.querySelector('.flickName').textContent = flick.name
+       
 
         // item.querySelector('.flickName').addEventListener('keyup', (ev) => {
         //     flick.name = (ev.target.textContent)
