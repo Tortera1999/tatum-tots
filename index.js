@@ -18,18 +18,10 @@ class App{
         this.flicks.splice(i,1)
     }
 
-    // favFlick(flick, ev){
-    //     const item = (ev.target.closest('.flick'))
-    //     if(!flick.fav){
-    //         item.style.backgroundColor = "yellow"
-    //     }
-    //     else{
-    //         item.style.backgroundColor = "white"
-    //     }
-    //     flick.fav = !flick.fav
-    //     console.log(item)
-    //     console.log(flick)
-    // }
+    favFlick(flick, ev){
+        const item = (ev.target.closest('.flick'))
+        flick.fav = item.classList.toggle('fav')
+    }
 
     renderListItem(flick){
         const item = this.template.cloneNode(true)
@@ -38,7 +30,7 @@ class App{
 
         item.querySelector('.remove.button').addEventListener('click', this.removeFlick.bind(this,flick))
 
-        //item.querySelector('.fav.button').addEventListener('click', this.favFlick.bind(this,flick))
+        item.querySelector('.fav.button').addEventListener('click', this.favFlick.bind(this,flick))
 
         // item.querySelector('.alert').addEventListener('click', (ev) =>{
         //     const b = (ev.target.parentElement.parentElement)
