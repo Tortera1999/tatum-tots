@@ -33,7 +33,7 @@ class App{
             btn.classList.remove ('success')
 
             flick.name = nameField.textContent
-            console.log(this.flicks)
+            //console.log(this.flicks)
         } else{
             nameField.contentEditable = true
             nameField.focus()
